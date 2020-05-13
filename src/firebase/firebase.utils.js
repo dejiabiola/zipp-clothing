@@ -13,6 +13,35 @@ const config = {
   measurementId: "G-9CS9B0KNMJ"
 }
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  // Auth user is the giant object we get when the user successfully sign in with google. It has the user display name and email
+  if (!userAuth) return
+  // create a user reference using firestore.doc passing in the path to the collection/document
+  // Note that the collection is like the array carrying a bunch of document objects in the db
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
+  // Snapshot returns an object that shows us a snapshot of the db. In there, we can see whether the doc exists or not
+  const snapShot = await userRef.get()
+
+  // Check if there is data in the db and if there isn't create one there
+  if (!snapShot.exists) {
+    // if it does not exist in the db, we will set it in the db
+    const { displayName, email } = userAuth
+    const createdAt = new Date()
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData
+      })
+    } catch(error) {
+      console.log('error creating user ', error)
+    }
+  }
+  // Return userRef because we might need it somewhere else in the codebase
+  return userRef
+}
+
 firebase.initializeApp(config)
 
 export const auth = firebase.auth()
