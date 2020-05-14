@@ -1,0 +1,14 @@
+import { createSelector } from 'reselect'
+
+// Input selector like below only return a piece of the state
+const selectCart = state => state.cart
+
+export const selectCartItems = createSelector(
+  [selectCart],
+  (cart) => cart.cartItems
+)
+
+export const selectCartItemCount = createSelector(
+  [selectCartItems],
+  (cartItems) => cartItems.reduce((accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity, 0)
+)
