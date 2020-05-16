@@ -20,6 +20,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+// Persistgate and persistor will allow redux to maintain existing data in the store
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
