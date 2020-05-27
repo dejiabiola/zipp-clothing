@@ -3,6 +3,8 @@ import './collectionItem.scss'
 import CustomButton from '../custom-button/CustomButton'
 import { connect } from 'react-redux'
 import { addItemToCart } from '../../redux/cart/cart.action'
+import PropTypes from 'prop-types'
+
 
 const CollectionItem = ({ item, addItemToCart }) => {
   const { imageUrl, name, price } = item
@@ -23,7 +25,10 @@ const CollectionItem = ({ item, addItemToCart }) => {
   )
 }
 
-
+CollectionItem.propTypes = {
+  addItemToCart: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
+}
 
 const mapDispatchToProps = dispatch => ({
   addItemToCart: (item) => dispatch(addItemToCart(item)) 
