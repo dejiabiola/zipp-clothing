@@ -8,6 +8,7 @@
     "@testing-library/user-event": "7.2.1",
     "firebase": "7.14.3",
     "node-sass": "4.14.1",
+    "prop-types": "15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "7.2.0",
@@ -40,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "7.20.0",
+    "prettier": "2.0.5"
   }
 }

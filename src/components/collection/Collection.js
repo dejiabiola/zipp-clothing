@@ -3,6 +3,8 @@ import './collection.scss'
 import { connect } from 'react-redux'
 import { selectCollection } from '../../redux/shop/shop.selectors'
 import CollectionItem from '../collection-item/CollectionItem'
+import PropTypes from 'prop-types'
+
 
 const CollectionPage = ({ collection }) => {
   const { items, title } = collection
@@ -18,6 +20,10 @@ const CollectionPage = ({ collection }) => {
       </div>
     </div>
   )
+}
+
+CollectionPage.propTypes = {
+  collection: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {

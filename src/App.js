@@ -11,13 +11,13 @@ import { setCurrentUser } from './redux/user/user.action';
 import { selectCurrentuser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect'
 import Checkout from './pages/checkout/Checkout'
-
+import PropTypes from 'prop-types'
 
 
 class App extends Component {
 
 
-  unSubscribeFromAuth = null
+  unSubscribeFromAuth = null;
 
   componentDidMount() {
     const { setCurrentUser } = this.props
@@ -57,6 +57,11 @@ class App extends Component {
       </div>
     );
   }
+}
+
+App.propTypes = {
+  currentUser: PropTypes.object,
+  setCurrentUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = createStructuredSelector({

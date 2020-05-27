@@ -6,9 +6,14 @@ import { firestore, convertCollectionToMap } from '../../firebase/firebase.utils
 import { connect } from 'react-redux'
 import { updateCollections } from '../../redux/shop/shop.actions'
 import WithSpinner from '../../components/with-spinner/WithSpinner'
+import PropTypes from 'prop-types'
+
+
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview)
 const CollectionPageWithSpinner = WithSpinner(CollectionPage)
+
+
 
 class ShopPage extends Component {
   state = {
@@ -42,6 +47,11 @@ class ShopPage extends Component {
       </div>
     )
   }
+}
+
+ShopPage.propTypes = {
+  updateCollections: PropTypes.func.isRequired,
+  match: PropTypes.object
 }
 
 const mapDispatchToProps = (dispatch) => {

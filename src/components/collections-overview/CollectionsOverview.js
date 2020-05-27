@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import CollectionPreview from '../collection-preview/CollectionPreview'
 import { selectCollectionsForPreview } from '../../redux/shop/shop.selectors'
+import PropTypes from 'prop-types'
+
 
 const CollectionsOverview = ({ collections }) => {
   return (
@@ -15,6 +17,10 @@ const CollectionsOverview = ({ collections }) => {
     }
     </div>
   )
+}
+
+CollectionsOverview.propTypes = {
+  collections: PropTypes.array.isRequired
 }
 
 const mapStateToProps = createStructuredSelector({
