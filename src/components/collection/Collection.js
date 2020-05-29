@@ -6,7 +6,7 @@ import CollectionItem from '../collection-item/CollectionItem'
 import PropTypes from 'prop-types'
 
 
-const CollectionPage = ({ collection }) => {
+const Collection = ({ collection }) => {
   const { items, title } = collection
   return (
     <div className='collection-page'>
@@ -22,7 +22,7 @@ const CollectionPage = ({ collection }) => {
   )
 }
 
-CollectionPage.propTypes = {
+Collection.propTypes = {
   collection: PropTypes.object.isRequired
 }
 
@@ -31,4 +31,4 @@ const mapStateToProps = (state, ownProps) => {
   collection: selectCollection(ownProps.match.params.collectionId)(state)
 }}
 
-export default connect(mapStateToProps)(CollectionPage)
+export default connect(mapStateToProps)(Collection)
