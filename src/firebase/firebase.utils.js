@@ -13,18 +13,16 @@ const config = {
   measurementId: "G-9CS9B0KNMJ"
 }
 
+firebase.initializeApp(config)
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   // Auth user is the giant object we get when the user successfully sign in with google. It has the user display name and email
   if (!userAuth) return
   // create a user reference using firestore.doc passing in the path to the collection/document
   // Note that the collection is like the array carrying a bunch of document objects in the db
   const userRef = firestore.doc(`users/${userAuth.uid}`)
-  // Snapshot returns an object that shows us a snapshot of the db. In there, we can see whether the doc exists or not
-  const snapShot = await userRef.get()
-
-  // Check if there is data in the db and if there isn't create one there
+  const snapShot = await userRef.get();
   if (!snapShot.exists) {
-    // if it does not exist in the db, we will set it in the db
     const { displayName, email } = userAuth
     const createdAt = new Date()
     try {
@@ -70,13 +68,22 @@ export const convertCollectionToMap = (collection) => {
   }, {})
 }
 
-firebase.initializeApp(config)
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unSubscribe = auth.onAuthStateChanged(userAuth => {
+      unSubscribe();
+      resolve(userAuth)
+    }, reject)
+  })
+}
+
+
 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({ prompt: 'select_account' })
-export const signInWithGoogle = () => auth.signInWithPopup(provider)
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: 'select_account' })
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
 
 export default firebase

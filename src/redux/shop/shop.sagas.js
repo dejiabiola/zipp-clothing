@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeLatest, call, put } from 'redux-saga/effects'
 import { FETCH_COLLECTIONS_START, fetchCollectionsSuccess, fetchCollectionsFailure } from './shop.actions'
 import { firestore, convertCollectionToMap } from '../../firebase/firebase.utils'
 
@@ -16,7 +16,7 @@ export function* fetchCollectionsStartAsync() {
 }
 
 export function* fetchCollectionsStart() {
-  // the first arg for takeEvery is the actiontype to be updated and the second is the generator function you want to run
+  // the first arg for takeLatest is the actiontype to be updated and the second is the generator function you want to run
   // takeEvrer creates a non blocking to call so that the app is non blocking
-  yield takeEvery(FETCH_COLLECTIONS_START, fetchCollectionsStartAsync)
+  yield takeLatest(FETCH_COLLECTIONS_START, fetchCollectionsStartAsync)
 }

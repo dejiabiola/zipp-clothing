@@ -1,4 +1,4 @@
-import { TOGGLE_CART_HIDDEN, ADD_CART_ITEM, CLEAR_ITEM_FROM_CART, REMOVE_ITEM } from "./cart.action"
+import { TOGGLE_CART_HIDDEN, ADD_CART_ITEM, CLEAR_ITEM_FROM_CART, REMOVE_ITEM, CLEAR_CART } from "./cart.action"
 import { addItemToCart, removeItemFromCart } from "./cart.utils"
 
 
@@ -28,6 +28,11 @@ export default function cartReducer(state=INITIAL_STATE, action) {
       return {
         ...state,
         cartItems: removeItemFromCart(state.cartItems, action.item)
+      }
+    case CLEAR_CART:
+      return {
+        ...state,
+        cartItems: []
       }
     default:
       return state

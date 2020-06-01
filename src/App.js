@@ -5,13 +5,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import ShopPage from './pages/shop-page/ShopPage';
 import Header from './components/header/Header';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.action';
 import { selectCurrentuser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect'
 import Checkout from './pages/checkout/Checkout'
 import PropTypes from 'prop-types'
+import { checkUserSessions } from './redux/user/user.action';
 
 
 class App extends Component {
@@ -20,23 +19,8 @@ class App extends Component {
   unSubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props
-    // get the authuser object from firebase and assing it to unsubscribe variable which will be used to close the connection
-    // when the component unmounts
-    this.unSubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
-
-      if (authUser) {
-        const userRef = await createUserProfileDocument(authUser)
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        })
-      } else {
-        setCurrentUser(authUser)
-      }
-    })
+    const { checkUserSessions } = this.props;
+    checkUserSessions()
   }
 
   componentWillUnmount() {
@@ -44,14 +28,13 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser } = this.props
     return (
       <div className="App">
         <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
+          <Route path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
           <Route path='/checkout' component={Checkout} /> 
         </Switch>
       </div>
@@ -61,17 +44,18 @@ class App extends Component {
 
 App.propTypes = {
   currentUser: PropTypes.object,
-  setCurrentUser: PropTypes.func.isRequired
+  checkUserSessions: PropTypes.func.isRequired
 }
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentuser,
-})
+});
 
-function mapDispatchToProps(dispatch) {
+const mapDisPatchToProps = (dispatch) => {
   return {
-    setCurrentUser: (user) => dispatch(setCurrentUser(user))
+    checkUserSessions: () => dispatch(checkUserSessions())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default connect(mapStateToProps, mapDisPatchToProps)(App);
