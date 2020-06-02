@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import HomePage from './pages/homepage/Homepage';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -13,33 +13,25 @@ import PropTypes from 'prop-types'
 import { checkUserSessions } from './redux/user/user.action';
 
 
-class App extends Component {
+const App = ({ checkUserSessions, currentUser }) => {
 
 
-  unSubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { checkUserSessions } = this.props;
+  useEffect(() => {
     checkUserSessions()
-  }
+  }, [checkUserSessions])
 
-  componentWillUnmount() {
-    this.unSubscribeFromAuth()
-  }
 
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
-          <Route path='/checkout' component={Checkout} /> 
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <Header />
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Route path='/shop' component={ShopPage} />
+        <Route path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
+        <Route path='/checkout' component={Checkout} /> 
+      </Switch>
+    </div>
+  );
 }
 
 App.propTypes = {
