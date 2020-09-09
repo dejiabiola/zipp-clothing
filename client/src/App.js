@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import { checkUserSessions } from './redux/user/user.action';
 import Header from './components/header/Header';
 import Loader from './components/loader/Loader';
+import ErrorBoundary from './components/error-boundary/error-boundary.component';
 
 const HomePage = lazy(() => import('./pages/homepage/Homepage'))
 const ShopPage = lazy(() => import('./pages/shop-page/ShopPage'))
@@ -24,15 +25,17 @@ const App = ({ checkUserSessions, currentUser }) => {
 
   return (
     <div className="App">
-    <GlobalStyle />
+      <GlobalStyle />
       <Header />
       <Switch>
-      <Suspense fallback={<Loader />}>
-      <Route exact path='/' component={HomePage} />
-        <Route path='/shop' component={ShopPage} />
-        <Route path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
-        <Route path='/checkout' component={Checkout} /> 
-      </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Loader />}>
+            <Route exact path='/' component={HomePage} />
+            <Route path='/shop' component={ShopPage} />
+            <Route path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
+            <Route path='/checkout' component={Checkout} />
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </div>
   );

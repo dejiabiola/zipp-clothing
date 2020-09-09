@@ -4,11 +4,13 @@ import { HomepageContainer } from './homepage.styles'
 
 
 
-const HomePage = () => (
+const HomePage = () => {
+  // throw Error;
+  return (
   <HomepageContainer>
     <Directory />
-  </HomepageContainer>
-)
+  </HomepageContainer>)
+}
 
 
 export default HomePage
