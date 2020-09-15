@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const compression = require('compression')
+const enforce = require('express-sslify');
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
@@ -21,6 +22,7 @@ app.use(cors())
 
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true}))
   app.use(express.static(path.join(__dirname, 'client/build')))
 
   app.get('*', (req, res) => {
